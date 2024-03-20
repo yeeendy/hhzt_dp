@@ -1,6 +1,12 @@
+import Header from '../../components/Header';
+
 // import { itemList, filteredList, searchItem } from '../../service/itemService';
 function Home() {
-  return <div>Home</div>;
+  return (
+    <div>
+      <Header />
+    </div>
+  );
 }
 
 export default Home;
