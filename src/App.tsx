@@ -1,7 +1,4 @@
-import "./App.css";
-
 function App() {
-  return <>good</>;
+  return <button></button>;
 }
-
 export default App;
