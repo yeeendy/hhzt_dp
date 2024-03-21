@@ -6,23 +6,28 @@ import {
   IconContainer,
   IconImg,
   MenuContainer,
+  StLink,
 } from './styles';
-import SearchField from './SearchField/SearchField';
+import SearchField from './Item/SearchField/SearchField';
 
 function Header() {
   return (
     <HeadContainer>
       <HeaderContainer>
-        <Logo>
-          <LogoImg src="/assets/logo.svg" alt="logo" />
-          <h1>항해장터</h1>
-        </Logo>
+        <StLink to={'/'}>
+          <Logo>
+            <LogoImg src="/assets/logo.svg" alt="logo" />
+            <h1>항해장터</h1>
+          </Logo>
+        </StLink>
         <SearchField />
         <IconContainer>
-          <div>
-            <IconImg src="/assets/sell_icon.png" alt="sell_icon" />
-            <span>판매하기</span>
-          </div>
+          <StLink to={'/item'}>
+            <div>
+              <IconImg src="/assets/sell_icon.png" alt="sell_icon" />
+              <span>판매하기</span>
+            </div>
+          </StLink>
           <div className="vertical"></div>
           <div>
             <IconImg src="/assets/myStore_icon.png" alt="myStore_icon" />

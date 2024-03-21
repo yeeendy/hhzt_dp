@@ -1,5 +1,5 @@
 import Header from '../../components/Header';
-import ItemCard from '../../components/ItemCard/ItemCard';
+import ItemCard from '../../components/Item/ItemCard/ItemCard';
 import { ItemCardList } from './styles';
 // import { itemList, filteredList, searchItem } from '../../service/itemService';
 
