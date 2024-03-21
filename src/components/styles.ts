@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const HeadContainer = styled.div`
@@ -65,5 +66,12 @@ export const MenuContainer = styled.header`
 
   span {
     font-weight: 800;
+  }
+`;
+
+export const StLink = styled(Link)`
+  all: unset;
+  &:hover {
+    color: unset;
   }
 `;
