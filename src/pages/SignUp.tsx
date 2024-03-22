@@ -12,12 +12,12 @@ import {
   ButtonContainer,
 } from "../components/user/Common";
 import { useNavigate } from "react-router-dom";
-import { signUp ,duplicateCheck } from "../apis/signUp";
+import { signUp ,duplicateNicknameCheck, duplicateIdCheck } from "../apis/signUp";
 import { idCheck } from "../util/Id";
 import { passwordCheck } from "../util/Password";
 import { nicknameCheck } from "../util/Nickname";
 import { useMutation } from "@tanstack/react-query";
-import withAuth from "../hocs/hoc";
+// import withAuth from "../hocs/hoc";
 
 function SignUp() {
   const [id, setId] = useState("");
@@ -85,9 +85,11 @@ function SignUp() {
   const signUpMutation = useMutation({
     mutationFn: signUp,
     onSuccess: (data) => {
-      if (data?.data.status === 200) {  // data가 없을 수 있으니(성공했을 때 data가 안담겨오니까 undefined.status는 성립할수 없음) data 뒤에 물음표 붙여서 되는지 확인해보기
+      if (data?.data.status === true) {  // data가 없을 수 있으니(성공했을 때 data가 안담겨오니까 undefined.status는 성립할수 없음) data 뒤에 물음표 붙여서 되는지 확인해보기
         alert("회원가입 안성~");
         navigate("/login");
+      } else {
+        alert('회원가입 실패ㅜㅜ 다시해보세윷~')
       }
     },
     onError: (error: {
@@ -98,30 +100,36 @@ function SignUp() {
   });
   
   const idDuplicateCheck = useMutation({
-    mutationFn: duplicateCheck,
+    mutationFn: duplicateIdCheck,
     onSuccess: (data) => {
-      if (data?.data.status === 200) {
+      if (data?.data.data.isExist === false) {
         alert("사용가능한 아이디(메일)입니다.");
+      } else {
+        alert('이미 사용중인 아이디입니다.');
       }
     },
     onError: (error: {
       response: any
     }) => {
       alert(`회원가입 실패 : ${error.response.data.data.msg}`);
+      alert('이미 사용중인 아이디입니다.');
     },
   });
 
   const nicknameDuplicateCheck = useMutation({
-    mutationFn: duplicateCheck,
+    mutationFn: duplicateNicknameCheck,
     onSuccess: (data) => {
-      if (data?.data.status === 200) {
+      if (data?.data.data.isExist === false) {
         alert("사용가능한 닉네임입니다.");
+      } else {
+        alert('이미 사용중인 닉네임입니다.');
       }
     },
     onError: (error: {
       response: any
     }) => {
       alert(`회원가입 실패 : ${error.response.data.data.msg}`);
+      alert('이미 사용중인 닉네임입니다.');
     },
   });
 
@@ -132,6 +140,7 @@ function SignUp() {
   const nicknameDuplicateCheckButton = async () => {
     nicknameDuplicateCheck.mutate({ nickname })
   }
+  
   const onClickSignUpButton = async () => {
     if (id === "" || pw === "" || nickname === "") {
       alert("아이디, 비밀번호, 닉네임을 모두 입력해주세요.");
@@ -152,7 +161,7 @@ function SignUp() {
       return;
     }
     signUpMutation.mutate({ id, pw, nickname });
-    // navigate("/login");
+    navigate("/login");
   };
 
 // 보여주는 메시지 alert로
@@ -182,7 +191,7 @@ function SignUp() {
           <Input
             className="input"
             type="password"
-            placeholder="영문, 숫자 조합 8자리 이상 20자리 이하"
+            placeholder="최소 하나 이상의 대문자, 소문자, 숫자를 포함한 6~20자리 문자를 입력하세요."
             value={pw}
             onChange={handlePw}
           />

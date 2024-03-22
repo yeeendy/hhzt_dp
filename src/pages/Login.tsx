@@ -59,14 +59,14 @@ import {
       onSuccess: (data) => {
         console.log(data);
         // const refreshToken = data.data.refreshToken;
-        const token = data.data.token || '';
-        if (data.data.status === 200) {
+        const token = data?.data.token || '';
+        if (data?.data.status === 200) {
           localStorage.setItem("token", token);
         //   setCookie("refreshToken", refreshToken);
           alert(`로그인 성공하였습니다. 메인페이지로 이동합니다!`);
           navigate("/");
         } else {
-          console.log("로긍니 실패");
+          console.log("로그인 실패");
         }
       },
       onError: (error) => {
