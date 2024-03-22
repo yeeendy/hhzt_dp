@@ -1,16 +1,39 @@
-import { CardContainer, Price, Date } from './styles';
+import styled from 'styled-components';
+import { CardContainer, Price, CkDate } from './styles';
+import { Link } from 'react-router-dom';
+import { Item } from '../../../util/itemInterface';
+import { checkDate } from '../../../util/checkDate';
 
-function ItemCard() {
+interface ItemCardProps {
+  item: Item;
+}
+
+function ItemCard({ item }: ItemCardProps) {
+  const createdAt = new Date(item.createdAt);
+  const daysDifference = checkDate(createdAt);
+
   return (
-    <CardContainer>
-      <img src="/assets/exam1.png" alt="" />
-      <h2>책 문진</h2>
-      <div>
-        <Price>36,000 원</Price>
-        <Date>3일 전</Date>
-      </div>
-    </CardContainer>
+    <CustomLink to={`/item/${item.id}`} key={item.id}>
+      <CardContainer>
+        <img src={item.imgUrl && item.imgUrl[0]} alt="아이템사진" />
+        <h2>{item.title}</h2>
+        <div>
+          <Price>{item.price.toLocaleString()} 원</Price>
+          <CkDate>{daysDifference}</CkDate>
+        </div>
+      </CardContainer>
+    </CustomLink>
   );
 }
 
 export default ItemCard;
+
+const CustomLink = styled(Link)`
+  margin-top: 20px;
+  color: black;
+  text-decoration: none;
+  font-size: 15px;
+  &:visited {
+    color: black;
+  }
+`;
