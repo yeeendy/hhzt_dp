@@ -3,6 +3,7 @@ import Home from '../pages/Home/Home';
 import ItemUpload from '../pages/ItemUpload/ItemUpload';
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
+import ItemDetail from '../pages/ItemDetail/ItemDetail';
 
 function Router() {
   return (
@@ -10,9 +11,9 @@ function Router() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/item" element={<ItemUpload />} />
-        <Route path="/login" element={<Login />}/>
-        <Route path="/signup" element={<SignUp />}/>
-
+        <Route path="/item/:itemId" element={<ItemDetail />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );
