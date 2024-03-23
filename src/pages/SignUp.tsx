@@ -1,3 +1,4 @@
+ //리액트쿼리에서 useMutation 타입 구글링해서 온에러에 리스폰스타입 뭐로해야하는지 찾아보기 외부라이브러리 사용하는경우 타입 뭔지 체크하기 어디서 타입에러가 뜨는지 찾아서 구글링하기
 import React, { useEffect, useState } from "react";
 import {
   Page,
@@ -10,9 +11,12 @@ import {
   BottomButton,
   CustomLink,
   ButtonContainer,
+  CheckingButton,
+  Box
 } from "../components/user/Common";
 import { useNavigate } from "react-router-dom";
-import { signUp ,duplicateNicknameCheck, duplicateIdCheck } from "../apis/signUp";
+import { signUp ,duplicateNicknameCheck, duplicateIdCheck } from "../apis/signUp"; // 이렇게 임포트 하는 것처럼 에러타입을 입포트 할수 있다 에시오스에서제공하는 에시오스타입에러가 필요
+import { AxiosError } from "axios";
 import { idCheck } from "../util/Id";
 import { passwordCheck } from "../util/Password";
 import { nicknameCheck } from "../util/Nickname";
@@ -85,17 +89,16 @@ function SignUp() {
   const signUpMutation = useMutation({
     mutationFn: signUp,
     onSuccess: (data) => {
+      console.log("data",data);
+      
       if (data?.data.status === true) {  // data가 없을 수 있으니(성공했을 때 data가 안담겨오니까 undefined.status는 성립할수 없음) data 뒤에 물음표 붙여서 되는지 확인해보기
         alert("회원가입 안성~");
         navigate("/login");
-      } else {
-        alert('회원가입 실패ㅜㅜ 다시해보세윷~')
-      }
+      } 
     },
-    onError: (error: {
-      response: any
-    }) => {
-      alert(`회원가입 실패 : ${error.response.data.data.msg}`);
+    onError: (error:AxiosError) => {
+      console.log(error,"error");
+      alert(`회원가입 실패 : ${error.response?.data.msg}`);
     },
   });
   
@@ -104,35 +107,26 @@ function SignUp() {
     onSuccess: (data) => {
       if (data?.data.data.isExist === false) {
         alert("사용가능한 아이디(메일)입니다.");
-      } else {
-        alert('이미 사용중인 아이디입니다.');
       }
     },
-    onError: (error: {
-      response: any
-    }) => {
-      alert(`회원가입 실패 : ${error.response.data.data.msg}`);
-      alert('이미 사용중인 아이디입니다.');
+    onError: (error:AxiosError) => {
+      alert(`회원가입 실패 : ${error.response?.data.msg}`);
     },
   });
+  //데이터 바디 값으로 판단해야한다.
 
   const nicknameDuplicateCheck = useMutation({
     mutationFn: duplicateNicknameCheck,
     onSuccess: (data) => {
       if (data?.data.data.isExist === false) {
         alert("사용가능한 닉네임입니다.");
-      } else {
-        alert('이미 사용중인 닉네임입니다.');
       }
     },
-    onError: (error: {
-      response: any
-    }) => {
-      alert(`회원가입 실패 : ${error.response.data.data.msg}`);
-      alert('이미 사용중인 닉네임입니다.');
+    onError: (error:AxiosError) => { // 애시오스의 에러 객체에 리스폰스키가 있따!
+      alert(`회원가입 실패 : ${error.response?.data.msg}`); //리스폰스가 반드시 오지 않을수 있으니 ? 쓰자 올때만 데이터에 접근할수 있똘고 처리 필요
     },
   });
-
+// 
   const idDuplicateCheckButton = async () => {
     idDuplicateCheck.mutate({ id })
   }
@@ -169,7 +163,7 @@ function SignUp() {
 
   return (
     <Page>
-      <TitleWrap>회원가입</TitleWrap>
+      <TitleWrap>항해장터 회원가입</TitleWrap>
       <ContentWrap>
         <InputTitle>아이디</InputTitle>
         <InputWrap>
@@ -180,6 +174,7 @@ function SignUp() {
             value={id}
             onChange={handleId}
           />
+        <CheckingButton onClick={idDuplicateCheckButton}>중복확인</CheckingButton>
         </InputWrap>
         <ErrorMessageWrap>
           {!idValid && id.length > 0 && (
@@ -218,6 +213,7 @@ function SignUp() {
           {pw_check !== pw && pw_check.length > 0 && (
             <div>비밀번호가 일치하지 않습니다.</div>
           )}
+        </ErrorMessageWrap>
         <InputTitle style={{ marginTop: "26px" }}>닉네임</InputTitle>
         <InputWrap>
           <Input
@@ -227,25 +223,25 @@ function SignUp() {
             value={nickname}
             onChange={handleNickname}
           />
+        <CheckingButton onClick={nicknameDuplicateCheckButton}>중복확인</CheckingButton>
         </InputWrap>
         <ErrorMessageWrap>
           {!nicknameValid && nickname.length > 0 && (
             <div>닉네임은 특수문자를 포함하지 않은 2~10자리로 입력해주세요.</div>
           )}
         </ErrorMessageWrap>
-        </ErrorMessageWrap>
         <ButtonContainer>
-          <BottomButton onClick={idDuplicateCheckButton}>아이디(메일주소) 중복확인</BottomButton>
-          <BottomButton onClick={nicknameDuplicateCheckButton}>닉네임 중복확인</BottomButton>
           <BottomButton onClick={onClickSignUpButton} disabled={notAllow}>
             회원가입
           </BottomButton>
+          <Box>
           <CustomLink to="/login" style={{ textDecoration: "none" }}>
             로그인
           </CustomLink>
           <CustomLink to="/" style={{ textDecoration: "none" }}>
             홈으로
           </CustomLink>
+          </Box>
         </ButtonContainer>
       </ContentWrap>
     </Page>

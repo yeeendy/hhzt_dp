@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import { Link } from "react-router-dom";
 import { BottomButtonProps } from '../../util/interface';
+// import exp from "constants";
 
 // interface BottomButtonProps {
 //   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -41,6 +42,7 @@ export const InputTitle = styled.div`
   color: #262626;
 `;
 
+
 export const InputWrap = styled.div`
   display: flex;
   border-radius: 8px;
@@ -65,12 +67,24 @@ export const Input = styled.input`
   }
 `;
 
+export const CheckingButton = styled.button`
+  width: 70px;
+  height: 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: #D9D9D9;
+  padding: 0px;
+  margin: 0px;
+
+`
+
 export const BottomButton = styled.button<BottomButtonProps>`
   width: 100%;
   height: 48px;
   border: none;
   font-weight: bold;
-  border-radius: 64px;
+  border-radius: 3px;
   background-color: #F70100;
   color: white;
   margin-bottom: 16px;
@@ -85,12 +99,18 @@ export const BottomButton = styled.button<BottomButtonProps>`
   }
 `;
 
+export const Box = styled.span`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+`
+
 export const CustomLink = styled(Link)`
   width: 100%;
   height: 48px;
   border: none;
   font-weight: bold;
-  border-radius: 64px;
+  border-radius: 3px;
   background-color: #F70100;
   color: white;
   margin-bottom: 16px;
@@ -99,11 +119,12 @@ export const CustomLink = styled(Link)`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin: 0px 5px 0px 5px; 
   &:visited {
-    width: 100%;
+    width: 50%;
     border: none;
     height: 48px;
-    border-radius: 64px;
+    border-radius: 3px;
     font-weight: bold;
     color: white;
     background-color: #F70100;
@@ -113,6 +134,7 @@ export const CustomLink = styled(Link)`
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin: 0px 30px 0px; 
   }
 `;
 

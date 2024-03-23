@@ -1,7 +1,7 @@
+import { error } from "console";
 import { authInstance, instance } from "./axios";
-import { AxiosResponse } from "axios";
 
-export const getItemListAll = async () => { // 상품 게시글 목록 조회
+export const getItemListAll = async () => { // 메인 화면 상품 게시글 목록 조회
   try {
     const res = await instance.get("/item");
     return res.data;
@@ -11,16 +11,16 @@ export const getItemListAll = async () => { // 상품 게시글 목록 조회
 };
 
 
-export const createItem = async (item) => {
+export const createItem = async (item) => { // 게시글 작성
   try {
-    const res: AxiosResponse<any> = await authInstance.post("/posts", item);
-    alert("등록 완료");
+    const res = await authInstance.post("/item", item);
+    // alert("등록 완료");
     return res.data;
   } catch (e) {
-    if (e.response && e.response.status === 400) {
+    if (e.response?.data.data.status === false) { // 명세서에 에러가 없는데 필요하지 않나? -확인해보시겠다고 함.
       // alert(e.response.data.message);
+      throw error
     }
-    throw e;
   }
 };
 
@@ -30,28 +30,29 @@ export const detailItemPost = async (itemId) => { // 선택한 상품 게시글 
     const res = await instance.get(`/item/${itemId}`);
     return res.data;
   } catch (error) {
-    // alert(error.response.data.message);
+    throw error
   }
 };
 
-export const editVotePost = async (postDetail) => { // 판매 상품 게시글 수정
+export const editItemPost = async (postDetail) => { // 판매 상품 게시글 수정
   try {
     const res = await authInstance.put(`/api/v1/item/${postDetail.id}`, postDetail);
     // alert(res.data.message);
     return res.data;
   } catch (error) {
-    // alert(error.response.data.message);
+    throw error
   }
 };
 
-export const removeVotePost = async (id) => { //판매 상품 게시글 삭제
+export const removeItemPost = async (id) => { //판매 상품 게시글 삭제
   try {
     console.log(`Removing ${id}`);
     const res = await authInstance.delete(`/posts/${id}`);
     // alert(res.data.message);
     return id;
   } catch (error) {
-    // alert(error.response.data.message);
+    throw error
+
   }
 };
 
