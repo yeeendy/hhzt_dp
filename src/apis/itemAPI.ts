@@ -10,6 +10,7 @@ export const getItemListAll = async () => { // 메인 화면 상품 게시글 �
   }
 };
 
+
 export const createItem = async (item) => { // 게시글 작성
   try {
     const res = await authInstance.post("/item", item);
@@ -65,3 +66,4 @@ export const removeItemPost = async (itemId) => { //판매 상품 게시글 삭�
 //     return error.response.data.message;
 //   }
 // };
+
