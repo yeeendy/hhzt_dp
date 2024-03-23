@@ -52,6 +52,7 @@ export const removeItemPost = async (id) => { //판매 상품 게시글 삭제
     return id;
   } catch (error) {
     throw error
+
   }
 };
 
@@ -67,4 +68,3 @@ export const removeItemPost = async (id) => { //판매 상품 게시글 삭제
 //     return error.response.data.message;
 //   }
 // };
-

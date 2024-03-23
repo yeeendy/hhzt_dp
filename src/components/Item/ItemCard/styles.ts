@@ -25,7 +25,7 @@ export const Price = styled.span`
   padding: 4px 12px 0 12px;
   font-weight: 700;
 `;
-export const Date = styled(Price)`
+export const CkDate = styled(Price)`
   color: gray;
   font-size: 12px;
   font-weight: 500;
