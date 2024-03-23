@@ -61,7 +61,7 @@ function Login() {
     onSuccess: (data) => {
       console.log(data);
       const Authorization = data?.headers.authorization || '';
-      console.log(data.headers.Authorization);      
+      console.log(data.headers.Authorization);
       if (data?.data.status === true) {
         localStorage.setItem('Authorization', Authorization);
         alert(`로그인 성공하였습니다. 메인페이지로 이동합니다!`);
