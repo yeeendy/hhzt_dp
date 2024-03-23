@@ -15,7 +15,7 @@ function ItemCard({ item }: ItemCardProps) {
   return (
     <CustomLink to={`/item/${item.id}`} key={item.id}>
       <CardContainer>
-        <img src={item.imgUrl && item.imgUrl[0]} alt="아이템사진" />
+        <img src={item.imageUrl[0]} alt="아이템사진" />
         <h2>{item.title}</h2>
         <div>
           <Price>{item.price.toLocaleString()} 원</Price>
