@@ -1,8 +1,106 @@
+import { useRef, useState } from 'react';
 import Header from '../../components/Header';
 import SelectCategory from '../../components/Item/SelectCategory/SelectCategory';
-// import { registerItem, updateItem } from '../../service/itemService';
-import styled from 'styled-components';
+import {
+  BasicInfo,
+  Box,
+  Footer,
+  HorizonLine,
+  ImgBox,
+  ImgLabel,
+  RegisterContainer,
+  UploadItem,
+} from './styles';
+import { authInstance } from '../../apis/axios';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router';
+
+// post type
+interface ItemData {
+  title: string;
+  category: { value: string; label: string };
+  contents: string;
+  price: number;
+}
+
+// post api
+export const itemPostFn = async (newItem: ItemData) => {
+  try {
+    const res = await authInstance.post(`/item`, newItem, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return res;
+  } catch (error) {
+    console.log('error', error);
+  }
+};
+
 function ItemUpload() {
+  const navigate = useNavigate();
+  // img들 담을 state
+  const [imgList, setImgList] = useState([]);
+  console.log('imgList', imgList);
+  const [itemPost, setItemPost] = useState<ItemData>({
+    title: '',
+    category: { value: '', label: '' },
+    contents: '',
+    price: 0,
+  });
+
+  // react-query / mutation
+  const postMutation = useMutation({
+    mutationFn: (newItem: ItemData) => {
+      // console.log('newItem', newItem);
+      return itemPostFn(newItem);
+    },
+    onSuccess: (res) => {
+      console.log('res', res);
+      navigate('/');
+    },
+    onError: (error) => {
+      console.log('error', error);
+    },
+  });
+
+  const handleCategoryChange = (selectedCategory: {
+    value: string;
+    label: string;
+  }) => {
+    setItemPost((prev) => ({ ...prev, category: selectedCategory }));
+  };
+  const handleFile = (e) => {
+    setImgList(e.target.files);
+  };
+
+  // post 함수
+  const handleItemSubmit = () => {
+    const formData = new FormData();
+    formData.append(
+      'requestDto',
+      // new Blob(
+      //   [
+      JSON.stringify({
+        title: itemPost.title,
+        contents: itemPost.contents,
+        category: itemPost.category.value,
+        price: itemPost.price,
+      }),
+      //   ],
+      //   { type: 'application/json' },
+      // ),
+    );
+    // 여러 장의 이미지를 forEach로 append
+    // Array(imgList).forEach((myImg) => formData.append('imgList', myImg));
+    // formData.append('imgList', imgList);
+    // for (let i = 0; i < imgList.length; i++) {
+    //   formData.append('imgList', imgList[i]);
+    // }
+    // formData.append('imgList', imgList);
+    Array.from(imgList).forEach((myImg) => formData.append('imgList', myImg));
+    postMutation.mutate(formData);
+  };
+  console.log('3333333333333', Array(imgList));
+
   return (
     <div>
       <Header />
@@ -22,133 +120,68 @@ function ItemUpload() {
               <img src="/assets/camera_icon.svg" alt="camera_icon" />
               <span>이미지 등록</span>
             </ImgLabel>
-            <input id="image_upload" type="file" />
+            <input
+              id="image_upload"
+              type="file"
+              // ref={imgRef}
+              onChange={(e) => handleFile(e)}
+              multiple
+            />
           </div>
         </ImgBox>
         <Box>
           <h3>
             상품명<span>*</span>
           </h3>
-          <input type="text" placeholder="상품명을 입력해 주세요." />
+          <input
+            type="text"
+            placeholder="상품명을 입력해 주세요."
+            value={itemPost.title}
+            onChange={(e) =>
+              setItemPost({ ...itemPost, title: e.target.value })
+            }
+          />
         </Box>
         <Box>
           <h3>
             카테고리<span>*</span>
           </h3>
           <div>
-            <SelectCategory />
-            <span>선택한 카테고리 :</span>
+            <SelectCategory onCategoryChange={handleCategoryChange} />
+            <span>선택한 카테고리 : {itemPost.category.label}</span>
           </div>
         </Box>
         <Box>
           <h3>
             가격<span>*</span>
           </h3>
-          <input type="text" placeholder="가격을 입력해 주세요." />
+          <input
+            type="number"
+            placeholder="가격을 입력해 주세요."
+            value={itemPost.price}
+            onChange={(e) =>
+              setItemPost({ ...itemPost, price: Number(e.target.value) })
+            }
+          />
         </Box>
         <Box>
           <h3>
             설명<span>*</span>
           </h3>
-          <textarea></textarea>
+          <textarea
+            value={itemPost.contents}
+            onChange={(e) =>
+              setItemPost({ ...itemPost, contents: e.target.value })
+            }
+          ></textarea>
         </Box>
       </RegisterContainer>
+      <Footer>
+        <button>나가기</button>
+        <button onClick={handleItemSubmit}>등록하기</button>
+      </Footer>
     </div>
   );
 }
 
 export default ItemUpload;
-
-export const UploadItem = styled.div`
-  color: #d80d17;
-  font-size: 13px;
-  padding: 20px 0 13px 8px;
-`;
-
-export const HorizonLine = styled.hr`
-  background: #eeeeee;
-  height: 1px;
-  border: 0;
-`;
-
-export const BasicInfo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  border-bottom: 2px solid black;
-  padding: 6px 0;
-  h2 {
-    font-size: 26px;
-    font-weight: 500;
-  }
-  span {
-    color: #d80d17;
-  }
-`;
-
-export const RegisterContainer = styled.div`
-  input[type='file'] {
-    display: none;
-  }
-
-  input {
-    outline: none;
-    background: #ffffff;
-    color: #000000;
-    border: 1px solid gray;
-    border-radius: 2px;
-    height: 36px;
-    padding-left: 12px;
-    &:nth-child(1) {
-      width: 800px;
-    }
-
-    &:nth-child(2) {
-      width: 300px;
-    }
-  }
-
-  textarea {
-    outline: none;
-    background: #ffffff;
-    color: #000000;
-    width: 856px;
-    height: 164px;
-  }
-
-  h3 {
-    width: 168px;
-    font-size: 18px;
-    font-weight: 500;
-    padding: 20px 0 0 4px;
-    span {
-      color: #d80d17;
-    }
-  }
-`;
-
-export const ImgLabel = styled.label`
-  cursor: pointer;
-  width: 200px;
-  height: 200px;
-  background-color: #fafafa;
-  border: 1px solid gray;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const Box = styled.div`
-  display: flex;
-  align-items: baseline;
-  padding: 12px 0;
-`;
-
-export const ImgBox = styled.div`
-  display: flex;
-  justify-content: baseline;
-  label {
-    margin-top: 40px;
-  }
-`;

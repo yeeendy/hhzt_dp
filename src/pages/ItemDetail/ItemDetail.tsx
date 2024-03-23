@@ -1,6 +1,6 @@
 import Header from '../../components/Header';
-import { useParams } from 'react-router';
-import { useQuery } from '@tanstack/react-query';
+import { useNavigate, useParams } from 'react-router';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { instance } from '../../apis/axios';
 import { useState } from 'react';
 import {
@@ -14,6 +14,7 @@ import {
   PayButton,
 } from './styles';
 import { checkDate } from '../../util/checkDate';
+import { removeItemPost } from '../../apis/itemAPI';
 
 export const itemListDetail = async (itemId: number) => {
   try {
@@ -26,13 +27,25 @@ export const itemListDetail = async (itemId: number) => {
 
 function ItemDetail() {
   const { itemId } = useParams();
+  const navigate = useNavigate();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['itemListDetail'],
     queryFn: () => itemListDetail(Number(itemId)),
   });
-  console.log('data', data);
+  // console.log('data', data);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const deleteMutation = useMutation({
+    mutationFn: (itemId) => removeItemPost(itemId),
+    onSuccess: (res) => {
+      console.log('res', res);
+      navigate(-1);
+    },
+    onError: (error) => {
+      console.log('error', error);
+    },
+  });
 
   const goToNextImage = () => {
     setCurrentImageIndex(
@@ -49,6 +62,10 @@ function ItemDetail() {
 
   const createdAt = new Date(data?.data.createdAt);
   const daysDifference = checkDate(createdAt);
+
+  const deleteItem = (itemId: any) => {
+    deleteMutation.mutate(itemId);
+  };
 
   if (isLoading) {
     return <div>로딩 중</div>;
@@ -78,6 +95,7 @@ function ItemDetail() {
               {data.data.price.toLocaleString()}
               <span>원</span>
             </h4>
+            <button onClick={() => deleteItem(data.data.id)}>삭제</button>
           </div>
           <hr />
           {daysDifference}

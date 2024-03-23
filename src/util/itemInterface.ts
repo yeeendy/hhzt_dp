@@ -4,7 +4,7 @@ export interface Item {
   title: string;
   contents: string;
   price: number;
-  imgUrl: string[];
+  imageUrl: string[];
   createdAt: string;
   updatedAt: string;
 }
