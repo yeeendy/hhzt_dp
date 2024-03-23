@@ -1,21 +1,20 @@
-import axios from "axios";
+import axios from 'axios';
 // import { setCookie } from "../cookies/cookies";
 // import { getNewRefreshToken } from "./refresh";
-
 
 export const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_SERVER_URL,
 });
 
 export const authInstance = axios.create({
-  baseURL: import.meta.env.VITE_APP_SERVER_URLL,
+  baseURL: import.meta.env.VITE_APP_SERVER_URL,
 });
 
 authInstance.interceptors.request.use(
   (config) => {
-    const Authorization = localStorage.getItem("Authorization") || "";
+    const Authorization = localStorage.getItem('Authorization') || '';
     if (Authorization) {
-      config.headers["Authorization"] = `${Authorization}`;
+      config.headers['Authorization'] = `${Authorization}`;
     }
     return config;
   },

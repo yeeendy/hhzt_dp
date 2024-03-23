@@ -4,8 +4,11 @@ interface Option {
   value: string;
   label: string;
 }
+interface SelectCategoryProps {
+  onCategoryChange: (selectedCategory: Option) => void;
+}
 
-function SelectCategory() {
+function SelectCategory({ onCategoryChange }: SelectCategoryProps) {
   // 카테고리 셀렉트 옵션들
   const options: Option[] = [
     { value: 'ENVIRONMENT', label: '의류' },
@@ -18,13 +21,21 @@ function SelectCategory() {
     { value: 'FOODS', label: '식품' },
   ];
   //d80d17
+  const handleCategoryClick = (selectedCategory: Option) => {
+    onCategoryChange(selectedCategory);
+  };
 
   return (
     <div>
       <Box1>
         <ul>
           {options.map((item) => (
-            <OptionList>{item.label}</OptionList>
+            <OptionList
+              key={item.value}
+              onClick={() => handleCategoryClick(item)}
+            >
+              {item.label}
+            </OptionList>
           ))}
         </ul>
       </Box1>
