@@ -105,7 +105,7 @@ function SignUp() {
   const idDuplicateCheck = useMutation({
     mutationFn: duplicateIdCheck,
     onSuccess: (data) => {
-      if (data?.data.data.isExist === false) {
+      if (data?.data.status === true) {
         alert("사용가능한 아이디(메일)입니다.");
       }
     },
@@ -118,7 +118,7 @@ function SignUp() {
   const nicknameDuplicateCheck = useMutation({
     mutationFn: duplicateNicknameCheck,
     onSuccess: (data) => {
-      if (data?.data.data.isExist === false) {
+      if (data?.data.status === true) {
         alert("사용가능한 닉네임입니다.");
       }
     },

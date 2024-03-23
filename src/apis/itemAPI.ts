@@ -1,4 +1,3 @@
-import { error } from "console";
 import { authInstance, instance } from "./axios";
 
 export const getItemListAll = async () => { // 메인 화면 상품 게시글 목록 조회
@@ -9,7 +8,6 @@ export const getItemListAll = async () => { // 메인 화면 상품 게시글 �
     return error;
   }
 };
-
 
 export const createItem = async (item) => { // 게시글 작성
   try {
@@ -68,3 +66,4 @@ export const removeItemPost = async (id) => { //판매 상품 게시글 삭제
 //     return error.response.data.message;
 //   }
 // };
+
