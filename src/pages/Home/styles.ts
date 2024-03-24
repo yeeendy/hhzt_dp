@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const ItemCardList = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 12px;
-  flex-wrap: wrap;
 `;
