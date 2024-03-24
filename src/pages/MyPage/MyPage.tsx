@@ -1,97 +1,78 @@
-import styled from "styled-components";
-import MyProduct from "../../components/user/Myproduct";
-import Photo from "../img/Photo.png";
+import styled from 'styled-components';
+import { getMyPage } from '../../apis/mypage';
+import { useQuery } from '@tanstack/react-query';
+import { checkDate } from '../../util/checkDate';
+import MyProduct from '../../components/Myproduct';
+import Photo from '../../../public/assets/Photo.png';
+import exam1 from '../../../public/assets/exam1.png';
+import Header from '../../components/Header';
+import favorites from '../../../public/assets/favorites.png';
 
-const MyShop = () => {
+function MyPage() {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['getMyPage'],
+    queryFn: () => getMyPage(),
+  });
+  const createdAt = new Date(data?.data.createdAt);
+  const daysDifference = checkDate(createdAt);
+
+  if (isLoading) {
+    return <div>로딩 중...</div>;
+  }
+  if (isError) {
+    return <div>로긴하세욧!!</div>;
+  }
+
   return (
-    <div>
-      <Section>
-        <All>
-          <All1>
-            <Imggg>
-              <ImgG>
+    <>
+      <Header />
+      <Wrapper>
+        <Container>
+          <Section>
+            <Profile>
+              <ProfileBackground>
                 <img src={Photo} />
-              </ImgG>
-              <ImgG1>
+              </ProfileBackground>
+              <Picture>
                 <img
-                  src={Photo}
+                  src={exam1}
                   width="100"
                   height="100"
                   alt="상점 프로필 이미지"
-                  class="sc-fATqzn hyPlln"
                 />
-              </ImgG1>
-              <ImgBtt>닉네임여기도받아오기</ImgBtt>
-              <ImgBtt1>
-                <button>내상점 관리</button>
-              </ImgBtt1>
-            </Imggg>
-          </All1>
+              </Picture>
+              <ProfileButton>
+              {data?.data.nickname}
+              <img src={favorites}/>
+              {/* 별 누끼 어케할거냐고 물어보기 */}
+                <button>&nbsp;내 상점 관리</button>
+              </ProfileButton>
+            </Profile>
+          </Section>
           <TextWindow>
             <Nickname>
-              닉네임여기다가 넣기
+              {data?.data.nickname}
               <NicknameBtt>상점명 수정</NicknameBtt>
             </Nickname>
+            <div>상점오픈일:{daysDifference}</div>
+            <div>내 아이디:{data?.data.email}</div>
           </TextWindow>
-        </All>
+        </Container>
         <div>
           <MyProduct />
         </div>
-      </Section>
-    </div>
+      </Wrapper>
+    </>
   );
-};
+}
 
-export default MyShop;
+export default MyPage;
 
-const Section = styled.div`
-  width: 1024px;
-  margin: auto;
-  padding: 2rem 0px 15rem;
-  display: flex;
-  flex-wrap: wrap;
+const ImgBtt = styled.div`
+  margin-top: 10px;
 `;
 
-const All = styled.div`
-  width: 1024px;
-  margin: auto;
-  display: flex;
-  width: 1024px;
-  margin-bottom: 30px;
-  border: 1px solid rgb(238, 238, 238);
-`;
-
-const Imggg = styled.div``;
-
-const All1 = styled.div``;
-
-const ImgG = styled.div`
-  img {
-    width: 310px;
-    width: 310px;
-    -webkit-filter: blur(5px);
-    -moz-filter: blur(5px);
-    -o-filter: blur(5px);
-    -ms-filter: blur(5px);
-    filter: blur(5px);
-    transform: scale(1.02);
-    z-index: -1;
-  }
-`;
-
-const ImgG1 = styled.div`
-  img {
-    border-radius: 100%;
-    border: 1px solid rgb(155, 155, 155);
-    width: 100px;
-    height: 100px;
-    z-index: -100;
-  }
-`;
-
-const ImgBtt = styled.div``;
-
-const ImgBtt1 = styled.div`
+const ProfileButton = styled.div`
   button {
     width: 106px;
     border: 1px solid rgb(255, 255, 255);
@@ -100,6 +81,79 @@ const ImgBtt1 = styled.div`
     align-items: center;
     font-size: 13px;
     background-color: transparent;
+  }
+  position: relative;
+  bottom: 300px;
+  left: 140px;
+  
+`;
+
+const Wrapper = styled.div`
+  width: 1024px;
+  margin: auto;
+  padding: 2rem 0px 15rem;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const Container = styled.div`
+  width: 1024px;
+  margin: auto;
+  display: flex;
+  width: 1024px;
+  margin-bottom: 30px;
+  border: 1px solid rgb(238, 238, 238);
+`;
+
+const Profile = styled.div``;
+
+const Section = styled.div`
+  padding: 0px;
+  margin: 0px;
+  height: 310px;
+`;
+
+const ProfileBackground = styled.div`
+  img {
+    width: 310px;
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+    transform: scale(1.02);
+    /* z-index: -1; */
+    /* position: inherit; */
+    display: flex;
+    width: 100%;
+    height: 100%;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: rgba(4, 0, 0, 0.03) 0px 5px 10px 0px;
+  }
+`;
+
+const Picture = styled.div`
+  img {
+    /* border-radius: 100%; */
+    border: 1px solid rgb(155, 155, 155);
+    /* z-index: -100; */
+    border-radius: 50%;
+    margin-bottom: 15px;
+    cursor: pointer;
+    vertical-align: bottom;
+    border-style: none;
+    overflow-clip-margin: content-box;
+    overflow: clip;
+    width: 100px;
+    aspect-ratio: auto 100 / 100;
+    height: 100px;
+    position: relative;
+    bottom: 300px;
+    left: 140px;
   }
 `;
 
@@ -112,6 +166,8 @@ const Nickname = styled.div`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
+  font-weight: bold;
+  font-size: 18px;
 `;
 
 const NicknameBtt = styled.button`
@@ -122,54 +178,6 @@ const NicknameBtt = styled.button`
   padding: 0px 5px;
   color: rgb(136, 136, 136);
   border: 1px solid rgb(238, 238, 238);
+  border-radius: 0px;
   font-size: 11px;
 `;
-
-
-
-
-
-
-
-// import { useEffect, useState } from "react";
-// import { getMyPage } from "../../apis/mypage";
-
-// // import { findLoginUser } from '../../service/MemberService'
-// function MyPage() {
-//   const [data, setData] = useState();
-//   useEffect(() => {
-//     //mypage 정보를 불러오기
-//     getMyPage().then((res) => {
-//       setData(res)
-//     })
-//   }, []);
-//   return (
-//   // <div> MyPage
-//   //   <div>{data.data?.email}</div>
-//   //   <div>{data.data?.nickname}</div>
-//   //   <div>{data.data?.createdAt}</div>
-//   // </div>
-//     <Container>
-//       <Title>마이 페이지</Title>
-//       <UserInfo>
-//         <Id>아이디 : </Id>
-//         <Value>
-//           {user.userId}
-//           <Line />
-//         </Value>
-//       </UserInfo>
-//       <Link to="/mypage/modify">
-//         <Btn type="submit" value="수정" />
-//       </Link>
-//     </Container>
-//   );
-// }
-
-// export default MyPage;
-
-
-// const MyPage = () => {
-//   const { user } = useUserState();
-//   return (
-//   );
-// };

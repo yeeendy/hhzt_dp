@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const MyProduct = () => {
@@ -6,13 +5,12 @@ const MyProduct = () => {
     <Card>
       <CardInner>
         <CardHead>
-          <img src="이미지" alt="product" />
           <Sth />
         </CardHead>
         <CardContents>
-          <ItemName>아이템 이름</ItemName>
+          <ItemName>동결건조 마시멜로우</ItemName>
           <ItemContentBottom>
-            <Price>가격</Price>
+            <Price>12,500</Price>
           </ItemContentBottom>
         </CardContents>
         <CardBot>

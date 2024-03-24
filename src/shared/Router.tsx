@@ -4,6 +4,7 @@ import ItemUpload from '../pages/ItemUpload/ItemUpload';
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
 import ItemDetail from '../pages/ItemDetail/ItemDetail';
+import MyPage from '../pages/MyPage/MyPage';
 
 function Router() {
   return (
@@ -14,6 +15,7 @@ function Router() {
         <Route path="/item/:itemId" element={<ItemDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path='/user/mypage' element={<MyPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,21 +1,38 @@
-import { authInstance } from "./axios";
+import { authInstance } from './axios';
+
+// export const getMyPage = async () => {
+//   const Authorization = localStorage.getItem('Authorization');
+//   // const authAxios = authInstance(Authorization);
+//   // const result = await authAxios.get('/user/mypage')
+//   // return result;
+//   try {
+//     const result = await authInstance.get('/user/mypage', {
+//       headers: {
+//         Authorization: Authorization,
+//       },
+//     });
+//     return result;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
 
 export const getMyPage = async () => {
-    const Authorization = localStorage.getItem('Authorization');
-    const authAxios = authInstance(Authorization);
-    const result = await authAxios.get('/user/mypage')
-    return result.data;
-    // try{
-    //     const result = await authInstance.get('/user/mypage', {
-    //         headers: {
-    //             Authorization: Authorization
-    //         }
-    //     })
-    // return result.data;
-    // } catch (error) {
-    //     throw error
-    // }
-}
+    try {
+        const Authorization = localStorage.getItem('Authorization') || '';
+        const response = await authInstance.get('/user/mypage', {
+            headers: {
+                Authorization: `${Authorization}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        alert("잘못된 요청입니다.")
+    }
+};
+
+
 // export const login = async (user: LoginUser) => {
 //     try {
 //       const result = await instance
