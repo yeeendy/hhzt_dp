@@ -75,3 +75,23 @@ export const StLink = styled(Link)`
     color: unset;
   }
 `;
+
+export const NavCategory = styled.div`
+  width: 200px;
+  height: 220px;
+  background: white;
+  position: absolute;
+  top: 53px;
+  z-index: 1;
+  border: 1px solid #d9d9d9;
+`;
+
+export const CustomLink = styled(Link)`
+  margin-top: 20px;
+  color: black;
+  text-decoration: none;
+  font-size: 18px;
+  &:visited {
+    color: black;
+  }
+`;

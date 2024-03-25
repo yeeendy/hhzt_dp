@@ -6,12 +6,16 @@ interface Option {
 }
 interface SelectCategoryProps {
   onCategoryChange: (selectedCategory: Option) => void;
+  // testCategory: string;
 }
 
-function SelectCategory({ onCategoryChange }: SelectCategoryProps) {
+function SelectCategory({
+  onCategoryChange,
+  // testCategory,
+}: SelectCategoryProps) {
   // 카테고리 셀렉트 옵션들
   const options: Option[] = [
-    { value: 'ENVIRONMENT', label: '의류' },
+    { value: 'CLOTHES', label: '의류' },
     { value: 'ACCESSORY', label: '액세서리' },
     { value: 'DIGITAL', label: '디지털' },
     { value: 'STAR_GOODS', label: '스타굿즈' },
@@ -20,7 +24,10 @@ function SelectCategory({ onCategoryChange }: SelectCategoryProps) {
     { value: 'PET_GOODS', label: '반려동물용품' },
     { value: 'FOODS', label: '식품' },
   ];
-  //d80d17
+
+  // const selectedLabel = options.find(
+  //   (option) => option.value === testCategory,
+  // )?.label;
   const handleCategoryClick = (selectedCategory: Option) => {
     onCategoryChange(selectedCategory);
   };
@@ -35,6 +42,7 @@ function SelectCategory({ onCategoryChange }: SelectCategoryProps) {
               onClick={() => handleCategoryClick(item)}
             >
               {item.label}
+              {/* {item.value === testCategory ? selectedLabel : item.label} */}
             </OptionList>
           ))}
         </ul>

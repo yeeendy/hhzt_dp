@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Header from '../../components/Header';
 import SelectCategory from '../../components/Item/SelectCategory/SelectCategory';
 import {
@@ -11,29 +11,17 @@ import {
   RegisterContainer,
   UploadItem,
 } from './styles';
-import { authInstance } from '../../apis/axios';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
+import { createItem } from '../../apis/itemAPI';
 
 // post type
-interface ItemData {
+export interface ItemData {
   title: string;
   category: { value: string; label: string };
   contents: string;
   price: number;
 }
-
-// post api
-export const itemPostFn = async (newItem: ItemData) => {
-  try {
-    const res = await authInstance.post(`/item`, newItem, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    return res;
-  } catch (error) {
-    console.log('error', error);
-  }
-};
 
 function ItemUpload() {
   const navigate = useNavigate();
@@ -49,9 +37,8 @@ function ItemUpload() {
 
   // react-query / mutation
   const postMutation = useMutation({
-    mutationFn: (newItem: ItemData) => {
-      // console.log('newItem', newItem);
-      return itemPostFn(newItem);
+    mutationFn: (newItem: any) => {
+      return createItem(newItem);
     },
     onSuccess: (res) => {
       console.log('res', res);
@@ -68,7 +55,7 @@ function ItemUpload() {
   }) => {
     setItemPost((prev) => ({ ...prev, category: selectedCategory }));
   };
-  const handleFile = (e) => {
+  const handleFile = (e: any) => {
     setImgList(e.target.files);
   };
 
@@ -77,17 +64,12 @@ function ItemUpload() {
     const formData = new FormData();
     formData.append(
       'requestDto',
-      // new Blob(
-      //   [
       JSON.stringify({
         title: itemPost.title,
         contents: itemPost.contents,
         category: itemPost.category.value,
         price: itemPost.price,
       }),
-      //   ],
-      //   { type: 'application/json' },
-      // ),
     );
     // 여러 장의 이미지를 forEach로 append
     // Array(imgList).forEach((myImg) => formData.append('imgList', myImg));
