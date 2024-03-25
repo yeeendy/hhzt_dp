@@ -29,7 +29,7 @@ interface CustomErrorData {
   msg: string;
 }
 
-interface CustomAxiosError<T = unknown> extends Error {
+interface CustomAxiosError extends Error {
   response?: {
     data: CustomErrorData;
   };
