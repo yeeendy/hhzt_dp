@@ -118,6 +118,7 @@ function SignUp() {
     },
     onError: (error: AxiosError) => {
       // alert(`회원가입 실패 : ${error.response?.data.msg}`);
+      console.log('error', error);
     },
   });
   //데이터 바디 값으로 판단해야한다.
@@ -129,9 +130,10 @@ function SignUp() {
         alert('사용가능한 닉네임입니다.');
       }
     },
-    onError: (error: AxiosError) => {
+    onError: (error) => {
       // 애시오스의 에러 객체에 리스폰스키가 있따!
       // alert(`회원가입 실패 : ${error.response?.data.msg}`); //리스폰스가 반드시 오지 않을수 있으니 ? 쓰자 올때만 데이터에 접근할수 있똘고 처리 필요
+      console.log('error', error);
     },
   });
   //
