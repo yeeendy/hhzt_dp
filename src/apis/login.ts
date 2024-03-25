@@ -1,6 +1,5 @@
 import { instance } from './axios';
 import { LoginUser } from '../util/interface';
-import { log } from 'console';
 
 export const login = async (user: LoginUser) => {
   try {

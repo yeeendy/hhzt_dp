@@ -42,9 +42,9 @@ function MyPage() {
                 />
               </Picture>
               <ProfileButton>
-              {data?.data.nickname}
-              <img src={favorites}/>
-              {/* 별 누끼 어케할거냐고 물어보기 */}
+                {data?.data.nickname}
+                <img src={favorites} />
+                {/* 별 누끼 어케할거냐고 물어보기 */}
                 <button>&nbsp;내 상점 관리</button>
               </ProfileButton>
             </Profile>
@@ -68,10 +68,6 @@ function MyPage() {
 
 export default MyPage;
 
-const ImgBtt = styled.div`
-  margin-top: 10px;
-`;
-
 const ProfileButton = styled.div`
   button {
     width: 106px;
@@ -85,7 +81,6 @@ const ProfileButton = styled.div`
   position: relative;
   bottom: 300px;
   left: 140px;
-  
 `;
 
 const Wrapper = styled.div`

@@ -1,5 +1,5 @@
- //리액트쿼리에서 useMutation 타입 구글링해서 온에러에 리스폰스타입 뭐로해야하는지 찾아보기 외부라이브러리 사용하는경우 타입 뭔지 체크하기 어디서 타입에러가 뜨는지 찾아서 구글링하기
-import React, { useEffect, useState } from "react";
+//리액트쿼리에서 useMutation 타입 구글링해서 온에러에 리스폰스타입 뭐로해야하는지 찾아보기 외부라이브러리 사용하는경우 타입 뭔지 체크하기 어디서 타입에러가 뜨는지 찾아서 구글링하기
+import React, { useEffect, useState } from 'react';
 import {
   Page,
   TitleWrap,
@@ -12,22 +12,26 @@ import {
   CustomLink,
   ButtonContainer,
   CheckingButton,
-  Box
-} from "../components/user/Common";
-import { useNavigate } from "react-router-dom";
-import { signUp ,duplicateNicknameCheck, duplicateIdCheck } from "../apis/signUp"; // 이렇게 임포트 하는 것처럼 에러타입을 입포트 할수 있다 에시오스에서제공하는 에시오스타입에러가 필요
-import { AxiosError } from "axios";
-import { idCheck } from "../util/Id";
-import { passwordCheck } from "../util/Password";
-import { nicknameCheck } from "../util/Nickname";
-import { useMutation } from "@tanstack/react-query";
+  Box,
+} from '../components/user/Common';
+import { useNavigate } from 'react-router-dom';
+import {
+  signUp,
+  duplicateNicknameCheck,
+  duplicateIdCheck,
+} from '../apis/signUp'; // 이렇게 임포트 하는 것처럼 에러타입을 입포트 할수 있다 에시오스에서제공하는 에시오스타입에러가 필요
+import { AxiosError } from 'axios';
+import { idCheck } from '../util/Id';
+import { passwordCheck } from '../util/Password';
+import { nicknameCheck } from '../util/Nickname';
+import { useMutation } from '@tanstack/react-query';
 // import withAuth from "../hocs/hoc";
 
 function SignUp() {
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
-  const [pw_check, setPw_check] = useState("");
-  const [nickname, setNickname] = useState("");
+  const [id, setId] = useState('');
+  const [pw, setPw] = useState('');
+  const [pw_check, setPw_check] = useState('');
+  const [nickname, setNickname] = useState('');
 
   const [idValid, setIdValid] = useState<boolean>(false);
   const [pwValid, setPwValid] = useState<boolean>(false);
@@ -45,7 +49,7 @@ function SignUp() {
     setNotAllow(true);
   }, [idValid, nicknameValid, pwValid, pw_checkValid]);
 
-  const handleId = (e :React.ChangeEvent<HTMLInputElement>) => {
+  const handleId = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (regex.test(e.target.value)) {
@@ -67,7 +71,8 @@ function SignUp() {
 
   const handlePw = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPw(e.target.value);
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,15}$/;
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,15}$/;
     if (regex.test(e.target.value)) {
       setPwValid(true);
     } else {
@@ -77,7 +82,8 @@ function SignUp() {
 
   const handlePw_check = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPw_check(e.target.value);
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,15}$/;
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,15}$/;
     if (regex.test(e.target.value)) {
       setPw_checkValid(true);
     } else {
@@ -89,28 +95,29 @@ function SignUp() {
   const signUpMutation = useMutation({
     mutationFn: signUp,
     onSuccess: (data) => {
-      console.log("data",data);
-      
-      if (data?.data.status === true) {  // data가 없을 수 있으니(성공했을 때 data가 안담겨오니까 undefined.status는 성립할수 없음) data 뒤에 물음표 붙여서 되는지 확인해보기
-        alert("회원가입 안성~");
-        navigate("/login");
-      } 
+      console.log('data', data);
+
+      if (data?.data.status === true) {
+        // data가 없을 수 있으니(성공했을 때 data가 안담겨오니까 undefined.status는 성립할수 없음) data 뒤에 물음표 붙여서 되는지 확인해보기
+        alert('회원가입 안성~');
+        navigate('/login');
+      }
     },
-    onError: (error:AxiosError) => {
-      console.log(error,"error");
-      alert(`회원가입 실패 : ${error.response?.data.msg}`);
+    onError: (error: AxiosError) => {
+      console.log(error, 'error');
+      // alert(`회원가입 실패 : ${error.response?.data.msg}`);
     },
   });
-  
+
   const idDuplicateCheck = useMutation({
     mutationFn: duplicateIdCheck,
     onSuccess: (data) => {
       if (data?.data.status === true) {
-        alert("사용가능한 아이디(메일)입니다.");
+        alert('사용가능한 아이디(메일)입니다.');
       }
     },
-    onError: (error:AxiosError) => {
-      alert(`회원가입 실패 : ${error.response?.data.msg}`);
+    onError: (error: AxiosError) => {
+      // alert(`회원가입 실패 : ${error.response?.data.msg}`);
     },
   });
   //데이터 바디 값으로 판단해야한다.
@@ -119,47 +126,48 @@ function SignUp() {
     mutationFn: duplicateNicknameCheck,
     onSuccess: (data) => {
       if (data?.data.status === true) {
-        alert("사용가능한 닉네임입니다.");
+        alert('사용가능한 닉네임입니다.');
       }
     },
-    onError: (error:AxiosError) => { // 애시오스의 에러 객체에 리스폰스키가 있따!
-      alert(`회원가입 실패 : ${error.response?.data.msg}`); //리스폰스가 반드시 오지 않을수 있으니 ? 쓰자 올때만 데이터에 접근할수 있똘고 처리 필요
+    onError: (error: AxiosError) => {
+      // 애시오스의 에러 객체에 리스폰스키가 있따!
+      // alert(`회원가입 실패 : ${error.response?.data.msg}`); //리스폰스가 반드시 오지 않을수 있으니 ? 쓰자 올때만 데이터에 접근할수 있똘고 처리 필요
     },
   });
-// 
+  //
   const idDuplicateCheckButton = async () => {
-    idDuplicateCheck.mutate({ id })
-  }
+    idDuplicateCheck.mutate({ id });
+  };
 
   const nicknameDuplicateCheckButton = async () => {
-    nicknameDuplicateCheck.mutate({ nickname })
-  }
-  
+    nicknameDuplicateCheck.mutate({ nickname });
+  };
+
   const onClickSignUpButton = async () => {
-    if (id === "" || pw === "" || nickname === "") {
-      alert("아이디, 비밀번호, 닉네임을 모두 입력해주세요.");
+    if (id === '' || pw === '' || nickname === '') {
+      alert('아이디, 비밀번호, 닉네임을 모두 입력해주세요.');
       return;
     }
     if (!idCheck(id)) {
-      alert("올바른 아이디(메일주소) 형식을 입력하세요.");
+      alert('올바른 아이디(메일주소) 형식을 입력하세요.');
       return;
     }
     if (!nicknameCheck(nickname)) {
-      alert("올바른 닉네임 형식(3~15자리)을 입력하세요.");
+      alert('올바른 닉네임 형식(3~15자리)을 입력하세요.');
       return;
     }
     if (!passwordCheck(pw)) {
       alert(
-        "올바른 비밀번호 형식(최소 하나 이상의 대문자, 소문자, 숫자를 포함한 6~20자리 문자)을 입력하세요.",
+        '올바른 비밀번호 형식(최소 하나 이상의 대문자, 소문자, 숫자를 포함한 6~20자리 문자)을 입력하세요.',
       );
       return;
     }
     signUpMutation.mutate({ id, pw, nickname });
-    navigate("/login");
+    navigate('/login');
   };
 
-// 보여주는 메시지 alert로
-// 복붙하고 api 주소 넣으면
+  // 보여주는 메시지 alert로
+  // 복붙하고 api 주소 넣으면
 
   return (
     <Page>
@@ -174,14 +182,16 @@ function SignUp() {
             value={id}
             onChange={handleId}
           />
-        <CheckingButton onClick={idDuplicateCheckButton}>중복확인</CheckingButton>
+          <CheckingButton onClick={idDuplicateCheckButton}>
+            중복확인
+          </CheckingButton>
         </InputWrap>
         <ErrorMessageWrap>
           {!idValid && id.length > 0 && (
             <div>이메일 형식으로 입력해주세요.</div>
           )}
         </ErrorMessageWrap>
-        <InputTitle style={{ marginTop: "26px" }}>비밀번호</InputTitle>
+        <InputTitle style={{ marginTop: '26px' }}>비밀번호</InputTitle>
         <InputWrap>
           <Input
             className="input"
@@ -194,12 +204,12 @@ function SignUp() {
         <ErrorMessageWrap>
           {!pwValid && pw.length > 0 && (
             <div>
-              최소 하나 이상의 영어 소문자, 대문자, 특수문자, 숫자 포함 8 ~15자리로
-              입력해주세요.
+              최소 하나 이상의 영어 소문자, 대문자, 특수문자, 숫자 포함 8
+              ~15자리로 입력해주세요.
             </div>
           )}
         </ErrorMessageWrap>
-        <InputTitle style={{ marginTop: "26px" }}>비밀번호 확인</InputTitle>
+        <InputTitle style={{ marginTop: '26px' }}>비밀번호 확인</InputTitle>
         <InputWrap>
           <Input
             className="input"
@@ -214,7 +224,7 @@ function SignUp() {
             <div>비밀번호가 일치하지 않습니다.</div>
           )}
         </ErrorMessageWrap>
-        <InputTitle style={{ marginTop: "26px" }}>닉네임</InputTitle>
+        <InputTitle style={{ marginTop: '26px' }}>닉네임</InputTitle>
         <InputWrap>
           <Input
             className="input"
@@ -223,11 +233,15 @@ function SignUp() {
             value={nickname}
             onChange={handleNickname}
           />
-        <CheckingButton onClick={nicknameDuplicateCheckButton}>중복확인</CheckingButton>
+          <CheckingButton onClick={nicknameDuplicateCheckButton}>
+            중복확인
+          </CheckingButton>
         </InputWrap>
         <ErrorMessageWrap>
           {!nicknameValid && nickname.length > 0 && (
-            <div>닉네임은 특수문자를 포함하지 않은 2~10자리로 입력해주세요.</div>
+            <div>
+              닉네임은 특수문자를 포함하지 않은 2~10자리로 입력해주세요.
+            </div>
           )}
         </ErrorMessageWrap>
         <ButtonContainer>
@@ -235,12 +249,12 @@ function SignUp() {
             회원가입
           </BottomButton>
           <Box>
-          <CustomLink to="/login" style={{ textDecoration: "none" }}>
-            로그인
-          </CustomLink>
-          <CustomLink to="/" style={{ textDecoration: "none" }}>
-            홈으로
-          </CustomLink>
+            <CustomLink to="/login" style={{ textDecoration: 'none' }}>
+              로그인
+            </CustomLink>
+            <CustomLink to="/" style={{ textDecoration: 'none' }}>
+              홈으로
+            </CustomLink>
           </Box>
         </ButtonContainer>
       </ContentWrap>
