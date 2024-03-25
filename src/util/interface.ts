@@ -1,10 +1,3 @@
-// export interface BottomButtonProps {
-//     // onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-//     // (property) onClick?: React.MouseEventHandler<HTMLDivElement> | undefined
-// }
-
-// props: PolymorphicComponentProps<"web", Substitute<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, BottomButtonProps>, void, void, {}, {}>): Element'
-
 export interface BottomButtonProps {
     // disabled?: boolean;
     [key: string]: any

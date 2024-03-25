@@ -71,17 +71,9 @@ function ItemUpload() {
         price: itemPost.price,
       }),
     );
-    // 여러 장의 이미지를 forEach로 append
-    // Array(imgList).forEach((myImg) => formData.append('imgList', myImg));
-    // formData.append('imgList', imgList);
-    // for (let i = 0; i < imgList.length; i++) {
-    //   formData.append('imgList', imgList[i]);
-    // }
-    // formData.append('imgList', imgList);
     Array.from(imgList).forEach((myImg) => formData.append('imgList', myImg));
     postMutation.mutate(formData);
   };
-  console.log('3333333333333', Array(imgList));
 
   return (
     <div>
@@ -105,7 +97,6 @@ function ItemUpload() {
             <input
               id="image_upload"
               type="file"
-              // ref={imgRef}
               onChange={(e) => handleFile(e)}
               multiple
             />
@@ -159,7 +150,7 @@ function ItemUpload() {
         </Box>
       </RegisterContainer>
       <Footer>
-        <button>나가기</button>
+        <button onClick={() => navigate('/')}>나가기</button>
         <button onClick={handleItemSubmit}>등록하기</button>
       </Footer>
     </div>

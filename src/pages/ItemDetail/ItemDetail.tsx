@@ -25,12 +25,8 @@ import {
   UploadItem,
 } from '../ItemUpload/styles';
 import SelectCategory from '../../components/Item/SelectCategory/SelectCategory';
-// import { ItemData } from '../ItemUpload/ItemUpload';
 
 export interface ItemDataRes {
-  // id: number;
-  // imageUrl: string[];
-  // createdAt: string;
   itemId?: number;
   title: string;
   category: { value: string; label: string };
@@ -47,14 +43,10 @@ export interface UpdatedItem {
 }
 
 function ItemDetail() {
-  // const queryClient = useQueryClient();
   const { itemId } = useParams();
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
   const [itemPost, setItemPost] = useState<ItemDataRes>({
-    // id: 0,
-    // imageUrl: [],
-    // createdAt: '',
     title: '',
     category: { value: '', label: '' },
     contents: '',
@@ -65,7 +57,6 @@ function ItemDetail() {
     queryKey: ['itemListDetail'],
     queryFn: () => detailItemGet(Number(itemId)),
   });
-  // console.log('data', data);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const deleteMutation = useMutation<any, any, number>({
@@ -114,14 +105,12 @@ function ItemDetail() {
 
   const handleNavigateClick = () => {
     setIsEdit(!isEdit);
-    // initFunc();
   };
 
   const handleEditMode = () => {
     setIsEdit(!isEdit);
     console.log('data', data);
     setItemPost({
-      // ...itemPost,
       title: data.data.title,
       category: data.data.category,
       contents: data.data.contents,
@@ -132,7 +121,6 @@ function ItemDetail() {
   const handleItemSubmit = () => {
     const formData = new FormData();
     const updatedItem = {
-      // ...itemPost,
       itemId: Number(itemId),
       title: itemPost.title,
       contents: itemPost.contents,
@@ -177,14 +165,7 @@ function ItemDetail() {
                   <img src="/assets/camera_icon.svg" alt="camera_icon" />
                   <span>이미지 등록</span>
                 </ImgLabel>
-                <input
-                  id="image_upload"
-                  type="file"
-                  // ref={imgRef}
-                  // onChange={(e) => handleFile(e)}
-                  multiple
-                  disabled
-                />
+                <input id="image_upload" type="file" multiple disabled />
               </div>
             </ImgBox>
             <Box>

@@ -1,13 +1,6 @@
-import { styled } from "styled-components";
-import { Link } from "react-router-dom";
+import { styled } from 'styled-components';
+import { Link } from 'react-router-dom';
 import { BottomButtonProps } from '../../util/interface';
-// import exp from "constants";
-
-// interface BottomButtonProps {
-//   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-//   disabled: (e: React.MouseEvent<HTMLButtonElement>) => void;
-//   // (property) onClick?: React.MouseEventHandler<HTMLDivElement> | undefined
-// }
 
 export const Page = styled.div`
   position: absolute;
@@ -42,7 +35,6 @@ export const InputTitle = styled.div`
   color: #262626;
 `;
 
-
 export const InputWrap = styled.div`
   display: flex;
   border-radius: 8px;
@@ -51,7 +43,7 @@ export const InputWrap = styled.div`
   background-color: white;
   border: 1px solid #e2e0e0;
   &:focus-within {
-    border: 1px solid #F70100;
+    border: 1px solid #f70100;
   }
 `;
 
@@ -73,11 +65,10 @@ export const CheckingButton = styled.button`
   border: none;
   border-radius: 3px;
   cursor: pointer;
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
   padding: 0px;
   margin: 0px;
-
-`
+`;
 
 export const BottomButton = styled.button<BottomButtonProps>`
   width: 100%;
@@ -85,7 +76,7 @@ export const BottomButton = styled.button<BottomButtonProps>`
   border: none;
   font-weight: bold;
   border-radius: 3px;
-  background-color: #F70100;
+  background-color: #f70100;
   color: white;
   margin-bottom: 16px;
   cursor: pointer;
@@ -103,7 +94,7 @@ export const Box = styled.span`
   width: 100%;
   display: flex;
   flex-direction: row;
-`
+`;
 
 export const CustomLink = styled(Link)`
   width: 100%;
@@ -111,7 +102,7 @@ export const CustomLink = styled(Link)`
   border: none;
   font-weight: bold;
   border-radius: 3px;
-  background-color: #F70100;
+  background-color: #f70100;
   color: white;
   margin-bottom: 16px;
   cursor: pointer;
@@ -119,7 +110,7 @@ export const CustomLink = styled(Link)`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 0px 5px 0px 5px; 
+  margin: 0px 5px 0px 5px;
   &:visited {
     width: 50%;
     border: none;
@@ -127,14 +118,14 @@ export const CustomLink = styled(Link)`
     border-radius: 3px;
     font-weight: bold;
     color: white;
-    background-color: #F70100;
+    background-color: #f70100;
     cursor: pointer;
     display: flex;
     margin-bottom: 16px;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 0px 30px 0px; 
+    margin: 0px 30px 0px;
   }
 `;
 
