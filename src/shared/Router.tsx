@@ -13,10 +13,6 @@ function Router() {
         <Route path="/" element={<Home />} />
         <Route path="/item" element={<ItemUpload />} />
         <Route path="/item/:itemId" element={<ItemDetail />} />
-        <Route
-          path="/item/modify/:itemId"
-          element={<ItemUpload isEdit={true} />}
-        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/user/mypage" element={<MyPage />} />
